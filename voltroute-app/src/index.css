@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #004ac6;
+  --color-primary-container: #2563eb;
+  --color-primary-fixed: #dbe1ff;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #eeefff;
+  --color-secondary: #006c49;
+  --color-secondary-container: #6cf8bb;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #00714d;
+  --color-tertiary: #4d556b;
+  --color-error: #ba1a1a;
+  --color-surface: #faf8ff;
+  --color-surface-container: #ededf9;
+  --color-surface-container-low: #f3f3fe;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-high: #e7e7f3;
+  --color-surface-variant: #e1e2ed;
+  --color-on-surface: #191b23;
+  --color-on-surface-variant: #434655;
+  --color-outline: #737686;
+  --color-outline-variant: #c3c6d7;
+  --color-inverse-surface: #2e3039;
+  --color-inverse-on-surface: #f0f0fb;
+  --font-family-headline: 'Manrope', sans-serif;
+  --font-family-body: 'Inter', sans-serif;
+}
+
+/* Base */
+body {
+  font-family: var(--font-family-body);
+  color: var(--color-on-surface);
+  background: var(--color-surface);
+  -webkit-font-smoothing: antialiased;
+}
+h1,h2,h3,h4,h5,h6,.font-headline { font-family: var(--font-family-headline); }
+::selection { background: var(--color-primary-fixed); }
+
+/* Glass */
+.glass-panel { background: rgba(255,255,255,0.75); backdrop-filter: blur(20px); }
+.glass-strong { background: rgba(255,255,255,0.88); backdrop-filter: blur(30px); }
+
+/* Animations */
+@keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes scaleIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes orbPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+
+.fade-in-up { animation: fadeInUp 0.5s ease forwards; }
+.scale-in { animation: scaleIn 0.4s ease forwards; }
+.float-anim { animation: float 3s ease-in-out infinite; }
+.stagger-1{animation-delay:0.1s} .stagger-2{animation-delay:0.2s} .stagger-3{animation-delay:0.3s} .stagger-4{animation-delay:0.4s}
+
+/* Scrollbar */
+.hide-scrollbar::-webkit-scrollbar{display:none}
+.hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+
+/* Leaflet overrides */
+.leaflet-control-zoom{border-radius:12px!important;overflow:hidden;border:none!important;box-shadow:0 4px 16px rgba(0,0,0,0.1)!important}
+.leaflet-control-zoom a{background:rgba(255,255,255,0.85)!important;backdrop-filter:blur(10px);color:#191b23!important;border:none!important}
+
+/* Material Symbols */
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+
+/* Input fix */
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(37,99,235,0.12)!important;outline:none}
+
+/* Inline input fix — inputs nested inside styled containers should be invisible (no grey box) */
+.flex > input[type="text"],
+.flex > input:not([type]) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.flex > input[type="text"]:focus,
+.flex > input:not([type]):focus {
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
