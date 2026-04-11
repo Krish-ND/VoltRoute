@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EV Kinetic | Precision Trip Planner</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191b23",
+                        "background": "#faf8ff",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-secondary-container": "#00714d",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-error-container": "#93000a",
+                        "outline": "#737686",
+                        "on-surface-variant": "#434655",
+                        "on-secondary-fixed": "#002113",
+                        "surface-container": "#ededf9",
+                        "on-primary-fixed": "#00174b",
+                        "surface-container-highest": "#e1e2ed",
+                        "secondary-fixed": "#6ffbbe",
+                        "primary-fixed": "#dbe1ff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#eef0ff",
+                        "outline-variant": "#c3c6d7",
+                        "on-surface": "#191b23",
+                        "surface": "#faf8ff",
+                        "secondary": "#006c49",
+                        "surface-container-high": "#e7e7f3",
+                        "secondary-container": "#6cf8bb",
+                        "tertiary": "#4d556b",
+                        "surface-container-low": "#f3f3fe",
+                        "inverse-on-surface": "#f0f0fb",
+                        "tertiary-fixed": "#dae2fd",
+                        "inverse-primary": "#b4c5ff",
+                        "primary-container": "#2563eb",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "primary": "#004ac6",
+                        "surface-tint": "#0053db",
+                        "surface-variant": "#e1e2ed",
+                        "secondary-fixed-dim": "#4edea3",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-primary-container": "#eeefff",
+                        "tertiary-container": "#656d84",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#d9d9e5",
+                        "surface-bright": "#faf8ff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#2e3039"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(250, 248, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .orb-gradient {
+            background: linear-gradient(135deg, #004ac6 0%, #006c49 100%);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary-fixed overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-bold tracking-tighter text-blue-700 font-headline">EV Kinetic</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-blue-700 font-bold border-b-2 border-blue-600 transition-all font-headline" href="#">Dashboard</a>
+<a class="text-slate-500 font-medium hover:text-blue-600 transition-colors font-headline" href="#">Analytics</a>
+<a class="text-slate-500 font-medium hover:text-blue-600 transition-colors font-headline" href="#">History</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-blue-600 transition-all scale-95 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-blue-600 transition-all scale-95 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="Close-up portrait of a professional man in a clean modern setting with soft daylighting and blurred background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIJ6-vosOIoy07L2v4r6IOUmuBRfL3Gk8Ge7m93owt5h28NhPuSIcehAc5fvkx3oTHQsmkys8V2xhyMKiSMhS6PgbA-AKjfuJD0eEXpjnfIJkG_lMYG60-kXuOLy3OXtoCNOzi707wOSpliEKKii3kdvxeIlcnd3G8mAuw0eUQ5RR7ljBaUwT6ESCJm5hd_ubHJhf_QcXP1pWxOH-ulWB-ICfKTWMnNIO1RzMbfkFmgLJV7tebrQBTcGaXiIh_jXgjox0hD8x6RZiq"/>
+</div>
+</div>
+</header>
+<main class="pt-16 h-screen flex">
+<!-- SideNav (Horizontal Anchor) -->
+<aside class="fixed left-0 top-0 h-full pt-20 z-40 h-screen w-64 hidden lg:flex flex-col bg-slate-50">
+<div class="px-6 mb-8">
+<h2 class="text-lg font-black tracking-widest uppercase text-slate-900 font-label">The Kinetic Horizon</h2>
+<p class="text-xs text-slate-500 font-label">Precision EV Navigation</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="bg-blue-50 text-blue-700 rounded-xl mx-2 shadow-sm p-3 flex items-center gap-3 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-medium text-sm">Dashboard</span>
+</div>
+<div class="text-slate-600 hover:bg-slate-200/50 rounded-xl mx-2 p-3 flex items-center gap-3 cursor-pointer hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-medium text-sm">Analytics</span>
+</div>
+<div class="text-slate-600 hover:bg-slate-200/50 rounded-xl mx-2 p-3 flex items-center gap-3 cursor-pointer hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-medium text-sm">History</span>
+</div>
+<div class="text-slate-600 hover:bg-slate-200/50 rounded-xl mx-2 p-3 flex items-center gap-3 cursor-pointer hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-medium text-sm">Preferences</span>
+</div>
+<div class="text-slate-600 hover:bg-slate-200/50 rounded-xl mx-2 p-3 flex items-center gap-3 cursor-pointer hover:translate-x-1 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-medium text-sm">Billing</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="lg:pl-64 flex w-full">
+<!-- Left Planning Panel -->
+<section class="w-[400px] h-full bg-surface-container-low overflow-y-auto hide-scrollbar p-6 flex flex-col gap-6 z-10 shadow-xl shadow-slate-900/5">
+<div class="flex flex-col gap-1">
+<h1 class="text-2xl font-extrabold font-headline tracking-tight text-on-surface">Plan Your Kinetic Trip</h1>
+<p class="text-sm text-tertiary font-body">Define your journey and energy parameters.</p>
+</div>
+<!-- Source/Destination Group -->
+<div class="space-y-4">
+<div class="relative">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1 ml-4">Source</label>
+<div class="flex items-center gap-3 bg-surface-container-lowest rounded-xl p-3 shadow-sm group">
+<span class="material-symbols-outlined text-primary" data-icon="location_on">location_on</span>
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 text-sm font-medium placeholder:text-slate-400" placeholder="Current Location" type="text"/>
+</div>
+</div>
+<div class="relative">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1 ml-4">Destination</label>
+<div class="flex items-center gap-3 bg-surface-container-lowest rounded-xl p-3 shadow-sm group">
+<span class="material-symbols-outlined text-secondary" data-icon="flag">flag</span>
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 text-sm font-medium placeholder:text-slate-400" placeholder="Where to?" type="text"/>
+</div>
+</div>
+</div>
+<!-- EV Vehicle Inputs (Bento Grid Style) -->
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Battery</label>
+<div class="flex items-baseline gap-1">
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 text-xl font-bold font-headline text-blue-700" type="number" value="75"/>
+<span class="text-xs font-bold text-slate-400">kWh</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Charge</label>
+<div class="flex items-baseline gap-1">
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 text-xl font-bold font-headline text-secondary" type="number" value="82"/>
+<span class="text-xs font-bold text-slate-400">%</span>
+</div>
+</div>
+<div class="col-span-2 bg-surface-container-lowest p-4 rounded-xl shadow-sm">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Efficiency (Wh/mi)</label>
+<div class="flex items-center gap-4">
+<input class="w-full accent-blue-600 h-1 bg-slate-200 rounded-full appearance-none cursor-pointer" max="450" min="150" type="range" value="280"/>
+<span class="text-sm font-bold text-blue-700">280</span>
+</div>
+</div>
+</div>
+<!-- Route Preferences -->
+<div class="space-y-3">
+<h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">Route Preferences</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">Fastest</button>
+<button class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-500 border border-slate-100 hover:border-blue-200 transition-all">Eco-Efficient</button>
+<button class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-500 border border-slate-100 hover:border-blue-200 transition-all">Avoid Tolls</button>
+</div>
+</div>
+<button class="primary-gradient w-full py-4 rounded-xl text-white font-bold font-headline shadow-lg shadow-blue-500/20 active:scale-95 transition-transform">
+                    Plan Trip
+                </button>
+<!-- Results Card (Bento Style) -->
+<div class="mt-auto pt-6 border-t border-slate-200/50 space-y-4">
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-white p-4 rounded-xl flex flex-col gap-1">
+<span class="text-[10px] font-bold text-slate-400 uppercase">Distance</span>
+<span class="text-lg font-extrabold font-headline">248.5 <span class="text-xs font-normal">mi</span></span>
+</div>
+<div class="bg-white p-4 rounded-xl flex flex-col gap-1">
+<span class="text-[10px] font-bold text-slate-400 uppercase">Est. Time</span>
+<span class="text-lg font-extrabold font-headline">3h 42m</span>
+</div>
+<div class="bg-secondary-container/20 p-4 rounded-xl flex flex-col gap-1">
+<span class="text-[10px] font-bold text-on-secondary-container uppercase">Energy Use</span>
+<span class="text-lg font-extrabold font-headline text-secondary">64.2 <span class="text-xs font-normal">kWh</span></span>
+</div>
+<div class="bg-blue-50 p-4 rounded-xl flex flex-col gap-1">
+<span class="text-[10px] font-bold text-blue-400 uppercase">Carbon Saved</span>
+<span class="text-lg font-extrabold font-headline text-blue-700">42.8 <span class="text-xs font-normal">kg</span></span>
+</div>
+</div>
+<div class="bg-surface-container p-4 rounded-xl flex justify-between items-center">
+<div>
+<span class="text-[10px] font-bold text-slate-500 uppercase block">Estimated Cost</span>
+<span class="text-xl font-black font-headline">$18.45</span>
+</div>
+<span class="material-symbols-outlined text-slate-400" data-icon="info">info</span>
+</div>
+</div>
+</section>
+<!-- Map View Area -->
+<section class="flex-1 relative bg-surface">
+<div class="absolute inset-0 z-0">
+<img alt="Interactive Navigation Map" class="w-full h-full object-cover grayscale-[0.3] brightness-[1.05]" data-alt="Clean and stylized satellite map of a modern coastal city with thin blue glowing route lines and green charging icons" data-location="San Francisco" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKrpxXBdAy4lZUF89YogSqCJkskHB9ZyNyCuUWeDd4puXPPCU7pqzwXuu5vN_bwepXBjHwW45X-Xn4mM4EviP11MqCmyqRzAcNUHJdJwijGNkPrxcHKR4iVQVDIveeliJEDpG75GndRu4NDEK9X5Ttscb_ctjqPWnB_mYEMAuUnP_I46bxrJsrqHDgg2yUJeGpewiLVeWYK6TcmzCN3Kjmwvzvso9brnN3po3PwKja3STGdIyfdPuWIbGoyU2JzkJXIkZpVhgNWQW7"/>
+</div>
+<!-- Map Overlays -->
+<div class="absolute top-6 left-6 flex flex-col gap-2 z-10">
+<button class="w-10 h-10 glass-panel rounded-md flex items-center justify-center shadow-sm text-on-surface hover:bg-white transition-colors">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<button class="w-10 h-10 glass-panel rounded-md flex items-center justify-center shadow-sm text-on-surface hover:bg-white transition-colors">
+<span class="material-symbols-outlined" data-icon="remove">remove</span>
+</button>
+</div>
+<div class="absolute top-6 right-6 z-10">
+<div class="glass-panel px-4 py-2 rounded-full flex items-center gap-3 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-xs font-bold font-label uppercase tracking-wider text-on-surface">System Online: Tesla Superchargers (42)</span>
+</div>
+</div>
+<!-- Floating Voice Assistant -->
+<div class="absolute bottom-10 right-10 z-20 flex flex-col items-end gap-4">
+<div class="glass-panel px-6 py-4 rounded-2xl shadow-xl max-w-xs border border-white/20 hidden md:block">
+<p class="text-sm font-medium text-on-surface leading-relaxed">
+                            "Hey Kinetic, find the nearest 350kW charger on my route."
+                        </p>
+</div>
+<button class="orb-gradient w-16 h-16 rounded-full flex items-center justify-center shadow-2xl text-white group active:scale-90 transition-all">
+<span class="material-symbols-outlined text-3xl" data-icon="mic" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+</div>
+<!-- Route Overlay (Simulation) -->
+<div class="absolute bottom-10 left-10 z-10 glass-panel p-6 rounded-3xl shadow-xl max-w-sm border border-white/20">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="ev_station">ev_station</span>
+<span class="text-xs font-bold uppercase tracking-widest text-slate-500">Stop 1</span>
+</div>
+<span class="text-xs font-bold text-secondary">22 min charge</span>
+</div>
+<h4 class="text-lg font-bold font-headline mb-1">Supercharger V3 - Big Sur</h4>
+<p class="text-xs text-tertiary mb-4">Arrival: 14% SoC • Peak: 250kW</p>
+<div class="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-secondary" style="width: 75%;"></div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EV Kinetic | Analytics Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191b23",
+                        "background": "#faf8ff",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-secondary-container": "#00714d",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-error-container": "#93000a",
+                        "outline": "#737686",
+                        "on-surface-variant": "#434655",
+                        "on-secondary-fixed": "#002113",
+                        "surface-container": "#ededf9",
+                        "on-primary-fixed": "#00174b",
+                        "surface-container-highest": "#e1e2ed",
+                        "secondary-fixed": "#6ffbbe",
+                        "primary-fixed": "#dbe1ff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#eef0ff",
+                        "outline-variant": "#c3c6d7",
+                        "on-surface": "#191b23",
+                        "surface": "#faf8ff",
+                        "secondary": "#006c49",
+                        "surface-container-high": "#e7e7f3",
+                        "secondary-container": "#6cf8bb",
+                        "tertiary": "#4d556b",
+                        "surface-container-low": "#f3f3fe",
+                        "inverse-on-surface": "#f0f0fb",
+                        "tertiary-fixed": "#dae2fd",
+                        "inverse-primary": "#b4c5ff",
+                        "primary-container": "#2563eb",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "primary": "#004ac6",
+                        "surface-tint": "#0053db",
+                        "surface-variant": "#e1e2ed",
+                        "secondary-fixed-dim": "#4edea3",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-primary-container": "#eeefff",
+                        "tertiary-container": "#656d84",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#d9d9e5",
+                        "surface-bright": "#faf8ff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#2e3039"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary-fixed">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-bold tracking-tighter text-blue-700 font-headline">EV Kinetic</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 font-medium hover:text-blue-600 transition-colors" href="#">Dashboard</a>
+<a class="text-blue-700 font-bold border-b-2 border-blue-600" href="#">Analytics</a>
+<a class="text-slate-500 font-medium hover:text-blue-600 transition-colors" href="#">History</a>
+<a class="text-slate-500 font-medium hover:text-blue-600 transition-colors" href="#">Preferences</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-surface-container-low px-4 py-2 rounded-xl">
+<span class="material-symbols-outlined text-outline text-lg" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm ml-2 w-48" placeholder="Search data..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:text-blue-600 transition-all active:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-blue-600 transition-all active:opacity-80">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</button>
+<img alt="User Profile Avatar" class="w-8 h-8 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb01ipQOmPCF0hoFjNMo3P7XKEy_qBfZOBE5SZ8zNtiyZfhq8kk8arudHKH38a9bZNgCqFWNQzB_1uOtoQYl3u1FDgGETkEwwPgZ6lQYZVMdaxB1NZiK3lZ5eeZHVBY_lLGzO9rvACrRl1Pkds0m1eg23U1VcKblqkjwZUgEJPrsIyXD-F3Cm8GTnlPF5XezyGaet6s6hRrSpNyJ-aY-Z5ursKFn2EHwN5X-ZgeAQMFY3ja6pf0DI7L0rrwEuvHWPJJJ80060HxHa3"/>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full pt-20 z-40 h-screen w-64 hidden lg:flex flex-col bg-slate-50">
+<div class="px-6 mb-8">
+<h2 class="text-lg font-black tracking-widest uppercase text-slate-900 font-headline">THE KINETIC HORIZON</h2>
+<p class="text-xs text-slate-500 font-medium">Precision EV Navigation</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 rounded-xl mx-2 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-xl mx-2 shadow-sm transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-medium text-sm">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 rounded-xl mx-2 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-medium text-sm">History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 rounded-xl mx-2 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-medium text-sm">Preferences</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 rounded-xl mx-2 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-medium text-sm">Billing</span>
+</a>
+</nav>
+<div class="mt-auto p-4 mx-4 mb-8 bg-gradient-to-br from-primary to-primary-container rounded-2xl text-white">
+<p class="text-xs opacity-80 mb-1">Battery Status</p>
+<div class="flex items-center justify-between mb-2">
+<span class="font-bold text-xl">84%</span>
+<span class="material-symbols-outlined" data-icon="ev_station">ev_station</span>
+</div>
+<div class="w-full bg-white/20 h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary-container w-[84%] h-full"></div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-24 px-6 pb-12 min-h-screen">
+<!-- Dashboard Header -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<h1 class="text-4xl font-extrabold tracking-tight font-headline text-on-surface mb-2">Efficiency Insights</h1>
+<p class="text-tertiary font-body">Detailed breakdown of your electric vehicle performance and savings.</p>
+</div>
+<div class="flex items-center gap-3 bg-surface-container-low p-1.5 rounded-2xl">
+<button class="px-4 py-2 text-sm font-semibold rounded-xl bg-surface-container-lowest shadow-sm text-primary">Last 30 Days</button>
+<button class="px-4 py-2 text-sm font-medium rounded-xl text-tertiary hover:bg-surface-container-high transition-colors">Quarterly</button>
+<button class="px-4 py-2 text-sm font-medium rounded-xl text-tertiary hover:bg-surface-container-high transition-colors">Yearly</button>
+<button class="p-2 flex items-center justify-center text-tertiary hover:bg-surface-container-high rounded-xl">
+<span class="material-symbols-outlined text-xl" data-icon="calendar_today">calendar_today</span>
+</button>
+</div>
+</header>
+<!-- Bento Grid Summary Stats -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<!-- Total Savings -->
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-[0_12px_24px_rgba(25,27,35,0.04)] group hover:translate-y-[-4px] transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-container/20 rounded-2xl text-secondary">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+<span class="text-secondary font-bold text-xs flex items-center gap-1 bg-secondary-container/10 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span> +12%
+                    </span>
+</div>
+<h3 class="text-tertiary text-sm font-medium mb-1">Total Savings</h3>
+<p class="text-3xl font-extrabold font-headline text-on-surface">$1,420.50</p>
+<p class="text-xs text-slate-400 mt-2">vs. gas vehicle equivalent</p>
+</div>
+<!-- Energy Used -->
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-[0_12px_24px_rgba(25,27,35,0.04)] group hover:translate-y-[-4px] transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-primary-fixed rounded-2xl text-primary">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</div>
+<span class="text-primary font-bold text-xs flex items-center gap-1 bg-primary-fixed/20 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-xs" data-icon="trending_down">trending_down</span> -4%
+                    </span>
+</div>
+<h3 class="text-tertiary text-sm font-medium mb-1">Energy Used</h3>
+<p class="text-3xl font-extrabold font-headline text-on-surface">842.8 <span class="text-lg font-medium text-tertiary">kWh</span></p>
+<p class="text-xs text-slate-400 mt-2">Average 15.4 kWh/100km</p>
+</div>
+<!-- Distance Covered -->
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-[0_12px_24px_rgba(25,27,35,0.04)] group hover:translate-y-[-4px] transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-tertiary-fixed rounded-2xl text-tertiary">
+<span class="material-symbols-outlined" data-icon="route">route</span>
+</div>
+</div>
+<h3 class="text-tertiary text-sm font-medium mb-1">Distance Covered</h3>
+<p class="text-3xl font-extrabold font-headline text-on-surface">5,412 <span class="text-lg font-medium text-tertiary">km</span></p>
+<p class="text-xs text-slate-400 mt-2">128 trips completed</p>
+</div>
+<!-- Carbon Savings -->
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-[0_12px_24px_rgba(25,27,35,0.04)] group hover:translate-y-[-4px] transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-container text-on-secondary-container rounded-2xl">
+<span class="material-symbols-outlined" data-icon="eco">eco</span>
+</div>
+</div>
+<h3 class="text-tertiary text-sm font-medium mb-1">CO2 Avoided</h3>
+<p class="text-3xl font-extrabold font-headline text-on-surface">1,240 <span class="text-lg font-medium text-tertiary">kg</span></p>
+<p class="text-xs text-slate-400 mt-2">Equivalent to 45 trees planted</p>
+</div>
+</section>
+<!-- Visualization Sections -->
+<section class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<!-- Large Chart: Cost Over Time -->
+<div class="xl:col-span-2 bg-surface-container-lowest p-8 rounded-[2rem] shadow-[0_12px_24px_rgba(25,27,35,0.04)]">
+<div class="flex items-center justify-between mb-10">
+<div>
+<h2 class="text-2xl font-bold font-headline text-on-surface">Cost &amp; Efficiency Trends</h2>
+<p class="text-tertiary text-sm">Monthly comparison of charging costs vs. range</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs font-medium text-tertiary">Charging Cost</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="text-xs font-medium text-tertiary">Solar Offset</span>
+</div>
+</div>
+</div>
+<!-- Mock Chart Visualization -->
+<div class="relative h-[300px] w-full flex items-end justify-between px-2 gap-4">
+<!-- Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="w-full border-t border-slate-100"></div>
+<div class="w-full border-t border-slate-100"></div>
+<div class="w-full border-t border-slate-100"></div>
+<div class="w-full border-t border-slate-100"></div>
+</div>
+<!-- Bars (Simplified) -->
+<div class="flex-1 flex flex-col justify-end items-center gap-1">
+<div class="w-full max-w-[40px] bg-secondary-container/40 rounded-t-lg h-[40%]"></div>
+<div class="w-full max-w-[40px] bg-primary rounded-t-lg h-[60%]"></div>
+<span class="text-[10px] uppercase font-bold text-slate-400 mt-3">Jan</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center gap-1">
+<div class="w-full max-w-[40px] bg-secondary-container/40 rounded-t-lg h-[35%]"></div>
+<div class="w-full max-w-[40px] bg-primary rounded-t-lg h-[75%]"></div>
+<span class="text-[10px] uppercase font-bold text-slate-400 mt-3">Feb</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center gap-1">
+<div class="w-full max-w-[40px] bg-secondary-container/40 rounded-t-lg h-[55%]"></div>
+<div class="w-full max-w-[40px] bg-primary rounded-t-lg h-[50%]"></div>
+<span class="text-[10px] uppercase font-bold text-slate-400 mt-3">Mar</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center gap-1">
+<div class="w-full max-w-[40px] bg-secondary-container/40 rounded-t-lg h-[65%]"></div>
+<div class="w-full max-w-[40px] bg-primary rounded-t-lg h-[45%]"></div>
+<span class="text-[10px] uppercase font-bold text-slate-400 mt-3">Apr</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center gap-1">
+<div class="w-full max-w-[40px] bg-secondary-container/40 rounded-t-lg h-[45%]"></div>
+<div class="w-full max-w-[40px] bg-primary rounded-t-lg h-[80%]"></div>
+<span class="text-[10px] uppercase font-bold text-slate-400 mt-3">May</span>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center gap-1">
+<div class="w-full max-w-[40px] bg-secondary-container/40 rounded-t-lg h-[70%]"></div>
+<div class="w-full max-w-[40px] bg-primary rounded-t-lg h-[55%]"></div>
+<span class="text-[10px] uppercase font-bold text-slate-400 mt-3">Jun</span>
+</div>
+</div>
+</div>
+<!-- Energy Sources Mix -->
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] shadow-[0_12px_24px_rgba(25,27,35,0.04)] flex flex-col">
+<h2 class="text-2xl font-bold font-headline text-on-surface mb-6">Energy Source Mix</h2>
+<div class="flex-1 flex flex-col justify-center gap-8">
+<div class="relative flex items-center justify-center">
+<!-- Simulated Donut Chart -->
+<div class="w-48 h-48 rounded-full border-[18px] border-slate-50 flex items-center justify-center relative">
+<div class="absolute inset-[-18px] rounded-full border-[18px] border-transparent border-t-primary border-r-primary-container border-l-secondary-container transform rotate-45"></div>
+<div class="text-center">
+<span class="block text-3xl font-extrabold font-headline">72%</span>
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Renewable</span>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-sm font-medium">Home Solar</span>
+</div>
+<span class="font-bold">42%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-sm font-medium">Public Fast Charge</span>
+</div>
+<span class="font-bold">30%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-slate-300"></span>
+<span class="text-sm font-medium">Grid (Non-renew)</span>
+</div>
+<span class="font-bold">28%</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Secondary Row: Top Destinations & Recent Performance -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+<!-- Top Locations Table -->
+<div class="bg-surface-container-low p-8 rounded-[2rem]">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold font-headline">Frequent Charging Hubs</h2>
+<button class="text-primary font-bold text-sm">View All</button>
+</div>
+<div class="space-y-4">
+<div class="bg-surface-container-lowest p-4 rounded-2xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center overflow-hidden">
+<img alt="Charging Station" class="w-full h-full object-cover" data-alt="close-up of a modern electric vehicle charging plug connected to a high-tech station in a city at sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8ct7250IZNXA0DMU6UE_txqohrPhtb2_rv_XM7G5Dw_J70Hc5UjC6SKMIoXYqQZkJLwNaE50jPBBbmnBQL4-74AqQ71wr6RW4UIr97x00ETAn4wk1_z-p7Q7t8RP9UuYzhwjxP3gsFtFPtytXLo-6RG9Y-CdMyEtMQls9IGTZcYPB3ohu8T_Q9dIMXg0vg7ZvfFiaMCztbogw7qHoe45_jAVVHd4OmtqEANhHW8QhEfLOcCT7_yov-sqtPKDwcM3b-EYKKHeCfN8r"/>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">SuperCharge Hub - Downtown</h4>
+<p class="text-xs text-tertiary">Last visited 2 days ago</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold">$12.40</p>
+<p class="text-[10px] font-bold text-secondary uppercase">45.2 kWh</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-2xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center overflow-hidden">
+<img alt="Charging Station" class="w-full h-full object-cover" data-alt="residential solar panel installation on a modern roof under a clear blue sky with soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7Azs2sh-iwemjbzAkw-JmqULRe7-Cvg2zrusvD6YuWt0h3X628g96IU_qO44vXmn-VH12W2EgRnL33IPByqcqyrnOUwuJOzwt4TLzCGtLIMO4ejQss_Y2gbdwhjsim76nnINgpCfRA6fziMTsSRlO7T6B0OA2e_tW-b7x1BtQVfRzvtHKol4cMjctyXAT5ooo_kGIRIdWu46Ewvkkeh5cQGnNg6R44N-7d6WQ4pdWKD0oqFLKs2NH2UvIkm19LnsZHd-iQmSSIwwp"/>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Home Wallbox</h4>
+<p class="text-xs text-tertiary">Daily overnight charge</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold">$2.10</p>
+<p class="text-[10px] font-bold text-secondary uppercase">28.0 kWh</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Health Metrics -->
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] border border-slate-100/50">
+<h2 class="text-xl font-bold font-headline mb-6">Battery Health Diagnostics</h2>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-6 bg-surface-container-low rounded-2xl">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Degradation</p>
+<p class="text-3xl font-extrabold font-headline">0.4%</p>
+<div class="flex items-center gap-1 text-secondary text-xs mt-2 font-bold">
+<span class="material-symbols-outlined text-sm" data-icon="verified">verified</span>
+                            Excellent
+                        </div>
+</div>
+<div class="p-6 bg-surface-container-low rounded-2xl">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Cycle Count</p>
+<p class="text-3xl font-extrabold font-headline">142</p>
+<p class="text-xs text-slate-400 mt-2">of approx. 1,500</p>
+</div>
+<div class="p-6 bg-surface-container-low rounded-2xl col-span-2">
+<div class="flex justify-between items-center mb-4">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Efficiency Rating</p>
+<span class="text-sm font-bold text-primary">A+ Optimal</span>
+</div>
+<div class="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-secondary to-secondary-container w-[92%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Voice Assistant (The Orb) -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-secondary shadow-[0_12px_24px_rgba(25,27,35,0.2)] flex items-center justify-center text-white transform hover:scale-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-2xl" data-icon="mic" data-weight="fill">mic</span>
+</button>
+</div>
+</body></html>

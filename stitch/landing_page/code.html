@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EV Kinetic | Smart Trip Planner &amp; Billing</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "surface-dim": "#d9d9e5",
+                    "on-secondary-fixed-variant": "#005236",
+                    "primary-fixed": "#dbe1ff",
+                    "surface-container": "#ededf9",
+                    "on-tertiary": "#ffffff",
+                    "surface-variant": "#e1e2ed",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#131b2e",
+                    "on-error": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#2e3039",
+                    "surface-tint": "#0053db",
+                    "secondary-container": "#6cf8bb",
+                    "primary-container": "#2563eb",
+                    "tertiary-fixed": "#dae2fd",
+                    "tertiary-container": "#656d84",
+                    "error": "#ba1a1a",
+                    "on-background": "#191b23",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "surface-container-low": "#f3f3fe",
+                    "error-container": "#ffdad6",
+                    "outline": "#737686",
+                    "on-secondary-container": "#00714d",
+                    "surface-bright": "#faf8ff",
+                    "on-tertiary-container": "#eef0ff",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "on-secondary-fixed": "#002113",
+                    "on-primary-container": "#eeefff",
+                    "outline-variant": "#c3c6d7",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "inverse-on-surface": "#f0f0fb",
+                    "secondary-fixed": "#6ffbbe",
+                    "secondary-fixed-dim": "#4edea3",
+                    "primary": "#004ac6",
+                    "on-surface": "#191b23",
+                    "surface-container-high": "#e7e7f3",
+                    "secondary": "#006c49",
+                    "surface": "#faf8ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "background": "#faf8ff",
+                    "surface-container-highest": "#e1e2ed",
+                    "on-surface-variant": "#434655",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#4d556b",
+                    "on-primary-fixed": "#00174b",
+                    "inverse-primary": "#b4c5ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        .glass-panel {
+            background: rgba(250, 248, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation Shell (Suppressed for Login State - prioritizing content canvas but following JSON structure if visible) -->
+<!-- As per "Destination Rule", for a pre-login focus, we simplify but maintain Brand identity -->
+<nav class="fixed top-0 w-full z-50 bg-slate-50/70 dark:bg-slate-950/70 backdrop-blur-xl shadow-sm">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<div class="text-xl font-bold tracking-tighter text-blue-700 dark:text-blue-400 font-headline">
+                Kinetic Horizon
+            </div>
+<div class="hidden md:flex items-center gap-8 font-manrope tracking-tight font-semibold text-slate-600">
+<a class="hover:text-blue-600 transition-colors" href="#">Routes</a>
+<a class="hover:text-blue-600 transition-colors" href="#">Charging</a>
+<a class="hover:text-blue-600 transition-colors" href="#">Premium</a>
+<a class="hover:text-blue-600 transition-colors" href="#">Fleet</a>
+</div>
+<div class="flex gap-4">
+<button class="px-5 py-2 text-blue-700 font-semibold hover:opacity-80 transition-all scale-95">Sign In</button>
+<button class="px-5 py-2 bg-primary text-on-primary rounded-xl font-semibold shadow-md hover:opacity-90 transition-all">Get Started</button>
+</div>
+</div>
+</nav>
+<main class="pt-24 min-h-screen">
+<!-- Hero Section: Split Layout -->
+<section class="max-w-7xl mx-auto px-6 py-12 md:py-20 grid md:grid-cols-2 gap-12 items-center">
+<!-- Left: Brand & Illustration -->
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">electric_car</span>
+                    The Future of Fleet
+                </div>
+<h1 class="text-5xl md:text-6xl font-headline font-extrabold tracking-tight text-on-surface leading-[1.1]">
+                    EV <span class="text-primary">Kinetic</span>
+</h1>
+<p class="text-xl text-on-surface-variant max-w-lg leading-relaxed">
+                    Plan smarter EV trips with AI, optimize costs, and reduce carbon footprint. Silent power, intelligent navigation.
+                </p>
+<!-- Illustration Placeholder Card -->
+<div class="relative group mt-12">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary to-secondary opacity-25 blur-xl group-hover:opacity-40 transition duration-1000"></div>
+<div class="relative bg-surface-container-low rounded-3xl overflow-hidden aspect-video shadow-xl">
+<img class="w-full h-full object-cover" data-alt="A futuristic 3D isometric view of a sleek electric car on a glowing digital map with blue and green path lines and charging icons" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7xLw2ztgF1FZA1VbBsnuzECKxadLIRZk1zTINE0xRKnRVhYwEUQD2hYdEf7Gi4AcuKuLl9X1Nkzt3XD1-KW-BenCNSSjaPtyqkeF2-JJeTKF_MywW1ceEHa9pmxWLFFWidKycqonpe5J_wL4szCcjlRAS8SVcGqTnhvGIOhseIgCEzF2rfgOGN3kjAVyNk77BTIcnJD5KAtPlsGBPm793Dp_9bhtKHm1g_KsFYle1bkok1vK1yXII7MBBLD0Vx8eVsskhZfnYdSWG"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
+<div class="absolute bottom-6 left-6 p-4 glass-panel rounded-2xl">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-on-secondary">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface uppercase tracking-wider">Optimal Route</p>
+<p class="text-sm font-medium text-on-surface-variant">Charging stop at 142 km</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Login Card -->
+<div class="flex justify-center md:justify-end">
+<div class="w-full max-w-md bg-surface-container-lowest p-10 rounded-[2rem] shadow-2xl shadow-blue-900/5 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
+<div class="text-center mb-10">
+<h2 class="text-3xl font-headline font-bold text-on-surface">Welcome Back</h2>
+<p class="text-on-surface-variant mt-2">Access your intelligent dashboard</p>
+</div>
+<button class="w-full py-4 px-6 bg-surface-container-low border border-outline-variant/30 rounded-xl flex items-center justify-center gap-3 font-semibold text-on-surface hover:bg-surface-container-high transition-all active:scale-[0.98]">
+<img alt="Google Logo" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCojZwcLnb7wUr2siM5vYaEynMOOTU6GFexpVBimbZ3zxWx1BtTRaSJilyS2SgCivnwigaGDFAcSMN00sB02ZtHFVHPAF6dIZu1iWjomthmGAg70OcZW30oqY8gv08j34CtqLNgUIKBjyTNl786zSGrpGvC3_pWtARqGtZuyzdDwFuiXE19chhmxpo16YuoDGIdS6FvsX2l97O-Eznna4VgFH7QUrBHMlxlRj0o8MLAfXyvAJQmqIuVu97WQlwKE0U0SCIFiHmlNjrL"/>
+                        Continue with Google
+                    </button>
+<div class="relative my-8 flex items-center">
+<div class="flex-grow border-t border-outline-variant/30"></div>
+<span class="px-4 text-xs font-bold text-outline uppercase tracking-widest">OR</span>
+<div class="flex-grow border-t border-outline-variant/30"></div>
+</div>
+<form class="space-y-6">
+<div class="space-y-1">
+<label class="block text-sm font-semibold text-on-surface ml-1">Email Address</label>
+<input class="w-full px-5 py-4 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary transition-all text-on-surface placeholder:text-outline/50" placeholder="name@example.com" type="email"/>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-center px-1">
+<label class="block text-sm font-semibold text-on-surface">Password</label>
+<a class="text-xs font-bold text-primary hover:underline" href="#">Forgot Password?</a>
+</div>
+<input class="w-full px-5 py-4 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-primary transition-all text-on-surface placeholder:text-outline/50" placeholder="••••••••" type="password"/>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold text-lg shadow-lg shadow-primary/20 hover:opacity-90 active:scale-[0.98] transition-all" type="submit">
+                            Sign In
+                        </button>
+</form>
+<div class="mt-8 text-center">
+<p class="text-on-surface-variant text-sm font-medium">
+                            Don't have an account? 
+                            <a class="text-primary font-bold ml-1 hover:underline" href="#">Create Account</a>
+</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Section: 3-Column Grid -->
+<section class="bg-surface-container-low py-24">
+<div class="max-w-7xl mx-auto px-6">
+<div class="mb-16 text-center">
+<h2 class="text-4xl font-headline font-extrabold text-on-surface mb-4">Master Every Journey</h2>
+<p class="text-on-surface-variant text-lg">Cutting-edge tools for the next generation of transport.</p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Feature 1 -->
+<div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-primary-container/20">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">route</span>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-3">AI Route Optimization</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Smart paths dynamically adjusted based on live traffic, weather, and charger availability.</p>
+</div>
+<!-- Feature 2 -->
+<div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-primary-container/20">
+<div class="w-14 h-14 bg-secondary-container rounded-2xl flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">payments</span>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-3">Cost Estimation</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Precise billing predictions for every trip, factoring in utility rates and peak hour pricing.</p>
+</div>
+<!-- Feature 3 -->
+<div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-primary-container/20">
+<div class="w-14 h-14 bg-tertiary-fixed-dim rounded-2xl flex items-center justify-center text-tertiary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">co2</span>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-3">Carbon Tracker</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Visualize your impact with real-time environmental data and sustainability reporting.</p>
+</div>
+<!-- Feature 4 -->
+<div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-primary-container/20">
+<div class="w-14 h-14 bg-primary-fixed rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">mic</span>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-3">Voice Assistant</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Stay focused on the road with hands-free control. Just say 'Hey Kinetic'.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Value Proposition Section -->
+<section class="max-w-7xl mx-auto px-6 py-24 overflow-hidden">
+<div class="flex flex-col md:flex-row items-center gap-16">
+<div class="w-full md:w-1/2 relative">
+<div class="absolute -top-12 -left-12 w-64 h-64 bg-secondary-container/20 rounded-full blur-3xl"></div>
+<img class="relative rounded-[2.5rem] shadow-2xl z-10 border-8 border-surface-container" data-alt="A clean, minimalist dashboard view on a high-end car screen showing a battery charge level at 85% with a soft green glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp0uZTSZwnDfEc-hJgF2TjJAh0mxQW-0kuj04WdUVgy44ZxCL8elWmgSat0Hpg0YHwhvC5RGQFOq8m-JPezDA7-o_MhkDQNX_sVOC0gQ7X-Bagp5FQhD3RLLsTQVnks6xneUx6WL1QFzf5ZDZ642C2o8upJL3Lmklw73_UWRqVHjp7XQ-5iaa-AzJ-zT4XzSBNOGUklHioXRDLFc61w3eG2wP1vCfrTgIheJzCjCSTO2oBERh7QR_Ymto9PXm-jr9HAp0z_CMbRmm-"/>
+</div>
+<div class="w-full md:w-1/2 space-y-8">
+<h2 class="text-4xl md:text-5xl font-headline font-extrabold text-on-surface tracking-tight leading-tight">
+                        Why choose EV Kinetic?
+                    </h2>
+<div class="space-y-6">
+<div class="flex gap-4 items-start">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="font-bold text-lg text-on-surface">Save money on charging</h4>
+<p class="text-on-surface-variant">Auto-detect off-peak hours and find the most cost-effective stations along your route.</p>
+</div>
+</div>
+<div class="flex gap-4 items-start">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="font-bold text-lg text-on-surface">Eliminate range anxiety</h4>
+<p class="text-on-surface-variant">Live battery telemetry ensures you always reach your destination with ample energy to spare.</p>
+</div>
+</div>
+<div class="flex gap-4 items-start">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="font-bold text-lg text-on-surface">Seamless billing integration</h4>
+<p class="text-on-surface-variant">Consolidated monthly statements compatible with all major corporate expense platforms.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer: Shared Component Protocol -->
+<footer class="bg-slate-100 dark:bg-slate-900 w-full py-12 border-t border-slate-200 dark:border-slate-800">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto gap-8">
+<div class="text-lg font-bold text-slate-900 dark:text-slate-100 font-headline">
+                Kinetic Horizon
+            </div>
+<div class="flex flex-wrap justify-center gap-8 font-inter text-sm text-slate-500 dark:text-slate-400">
+<a class="hover:text-blue-500 transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-blue-500 transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-blue-500 transition-colors" href="#">Route API</a>
+<a class="hover:text-blue-500 transition-colors" href="#">Support</a>
+</div>
+<div class="font-inter text-sm text-slate-500 dark:text-slate-400 text-center md:text-right">
+                © 2024 Kinetic Horizon EV. All rights reserved.
+            </div>
+</div>
+</footer>
+<!-- Floating Voice Assistant "The Orb" -->
+<div class="fixed bottom-8 right-8 z-[60]">
+<button class="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110 active:scale-95 group relative overflow-hidden" style="background: linear-gradient(135deg, #004ac6, #006c49); box-shadow: 0 12px 24px rgba(25, 27, 35, 0.15);">
+<div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-white text-3xl">keyboard_voice</span>
+</button>
+</div>
+</body></html>
