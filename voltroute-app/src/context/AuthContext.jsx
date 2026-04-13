@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (IS_DEMO_MODE) {
-      const saved = localStorage.getItem('vr_demo_user');
+      const saved = sessionStorage.getItem('vr_demo_user');
       if (saved) setUser(JSON.parse(saved));
       setLoading(false);
       return;
@@ -23,12 +23,12 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    if (IS_DEMO_MODE) { const u = { ...DEMO_USER, email }; localStorage.setItem('vr_demo_user', JSON.stringify(u)); setUser(u); return u; }
+    if (IS_DEMO_MODE) { const u = { ...DEMO_USER, email }; sessionStorage.setItem('vr_demo_user', JSON.stringify(u)); setUser(u); return u; }
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   const signup = async (email, password, name) => {
-    if (IS_DEMO_MODE) { const u = { ...DEMO_USER, email, displayName: name }; localStorage.setItem('vr_demo_user', JSON.stringify(u)); setUser(u); return u; }
+    if (IS_DEMO_MODE) { const u = { ...DEMO_USER, email, displayName: name }; sessionStorage.setItem('vr_demo_user', JSON.stringify(u)); setUser(u); return u; }
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     return cred.user;
   };
@@ -36,7 +36,7 @@ export function AuthProvider({ children }) {
   const loginWithGoogle = async () => {
     if (IS_DEMO_MODE) {
       const u = { ...DEMO_USER, displayName: 'Google User', email: 'google@voltroute.io' };
-      localStorage.setItem('vr_demo_user', JSON.stringify(u));
+      sessionStorage.setItem('vr_demo_user', JSON.stringify(u));
       setUser(u);
       return u;
     }
@@ -46,7 +46,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
-    if (IS_DEMO_MODE) { localStorage.removeItem('vr_demo_user'); setUser(null); return; }
+    if (IS_DEMO_MODE) { sessionStorage.removeItem('vr_demo_user'); setUser(null); return; }
     return signOut(auth);
   };
 

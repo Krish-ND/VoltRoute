@@ -7,7 +7,14 @@ export default function Settings() {
   const [saved, setSaved] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(VEHICLE_PRESETS[0]?.id || '');
   const [notifications, setNotifications] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('vr_theme_pref') === 'dark');
+
+  const toggleDarkMode = () => {
+    const next = !darkMode;
+    setDarkMode(next);
+    localStorage.setItem('vr_theme_pref', next ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark', next);
+  };
 
   const handleSave = () => { setSaved(true); setTimeout(()=>setSaved(false), 2000); };
 
@@ -62,8 +69,8 @@ export default function Settings() {
               </button>
             </div>
             <div className="flex items-center justify-between">
-              <div><p className="text-sm font-bold">Dark Mode</p><p className="text-[11px] text-on-surface-variant">Coming soon</p></div>
-              <button onClick={()=>setDarkMode(!darkMode)} className={`w-11 h-6 rounded-full transition-colors ${darkMode?'bg-primary':'bg-outline-variant'}`}>
+              <div><p className="text-sm font-bold">Dark Mode</p><p className="text-[11px] text-on-surface-variant">Switch to a sleek dark interface</p></div>
+              <button onClick={toggleDarkMode} className={`w-11 h-6 rounded-full transition-colors ${darkMode?'bg-primary':'bg-outline-variant'}`}>
                 <div className={`w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${darkMode?'translate-x-5.5':'translate-x-0.5'}`} />
               </button>
             </div>

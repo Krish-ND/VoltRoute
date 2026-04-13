@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { StationService, CHARGING_STATIONS } from '../services/stations';
@@ -9,8 +9,17 @@ L.Icon.Default.mergeOptions({ iconRetinaUrl:'https://unpkg.com/leaflet@1.9.4/dis
 export default function Stations() {
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState('All');
+  const [stations, setStations] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const filtered = CHARGING_STATIONS.filter(s => {
+  React.useEffect(() => {
+    StationService.getAllStations().then(data => {
+      setStations(data);
+      setLoading(false);
+    });
+  }, []);
+
+  const filtered = stations.filter(s => {
     const matchSearch = !search || s.name.toLowerCase().includes(search.toLowerCase()) || s.city.toLowerCase().includes(search.toLowerCase()) || s.state.toLowerCase().includes(search.toLowerCase());
     const matchType = typeFilter === 'All' || s.stationType === typeFilter;
     return matchSearch && matchType;
@@ -38,10 +47,11 @@ export default function Stations() {
           ))}
         </div>
 
-        <p className="text-[10px] font-bold text-on-surface-variant uppercase">{filtered.length} Stations found</p>
+        <p className="text-[10px] font-bold text-on-surface-variant uppercase">{loading ? 'Loading...' : `${filtered.length} Stations found`}</p>
 
         <div className="space-y-2 flex-1">
-          {filtered.map(s=>(
+          {loading && <div className="flex justify-center p-5"><div className="w-8 h-8 border-3 border-primary/30 border-t-primary rounded-full animate-spin"></div></div>}
+          {!loading && filtered.map(s=>(
             <div key={s.id} className="bg-surface-container-lowest p-3 rounded-xl hover:shadow-md transition-shadow cursor-pointer">
               <div className="flex items-start gap-3">
                 <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${s.stationType==='Fast Charger'?'bg-primary/10':'bg-secondary/10'}`}>

@@ -59,8 +59,17 @@ export default function Dashboard() {
   const [bounds, setBounds] = useState(null);
   const [toast, setToast] = useState(null);
   const [showEV, setShowEV] = useState(true);
+  const [showFuel, setShowFuel] = useState(false);
+  const [showParking, setShowParking] = useState(false);
+  const [stations, setStations] = useState([]);
+  const [stationsLoading, setStationsLoading] = useState(true);
 
-  const stations = StationService.getAllStations();
+  useEffect(() => {
+    StationService.getAllStations().then(data => {
+      setStations(data);
+      setStationsLoading(false);
+    });
+  }, []);
 
   const showToast = (msg, type='info') => { setToast({msg,type}); setTimeout(()=>setToast(null), 3000); };
 
@@ -247,18 +256,29 @@ export default function Dashboard() {
               <Popup><div style={{fontFamily:'Inter,sans-serif',minWidth:180}}><h4 style={{fontWeight:800,fontSize:13,margin:'0 0 2px'}}>{s.name}</h4><p style={{fontSize:11,color:'#4d556b',margin:'0 0 4px'}}>{s.city}, {s.state}</p><span style={{background:'#dbe1ff',color:'#004ac6',padding:'1px 6px',borderRadius:6,fontSize:10,fontWeight:700}}>{s.stationType}</span>{s.pricePerUnit>0?<p style={{fontSize:11,margin:'4px 0 0'}}>₹{s.pricePerUnit}/kWh</p>:<p style={{fontSize:11,margin:'4px 0 0',color:'#006c49'}}><b>Free</b></p>}</div></Popup>
             </Marker>
           ))}
+          {showFuel && stations.map((s,i)=>(
+            <Marker key={`f-${i}`} position={[s.lat + 0.006, s.lng - 0.005]} icon={L.divIcon({ className:'', iconSize:[22,22], iconAnchor:[11,11], html:`<div style="background:#f97316;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,0.2);border:2px solid white"><span style="color:white;font-size:12px" class="material-symbols-outlined">local_gas_station</span></div>`})}>
+              <Popup><div style={{fontFamily:'Inter',minWidth:140}}><h4 style={{margin:0,fontSize:13,fontWeight:800}}>Fuel Station</h4><p style={{margin:0,fontSize:11,color:'#666'}}>Petrol & Diesel</p></div></Popup>
+            </Marker>
+          ))}
+          {showParking && stations.map((s,i)=>(
+            <Marker key={`p-${i}`} position={[s.lat - 0.004, s.lng + 0.007]} icon={L.divIcon({ className:'', iconSize:[22,22], iconAnchor:[11,11], html:`<div style="background:#737686;width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,0.2);border:2px solid white"><span style="color:white;font-size:14px" class="material-symbols-outlined">local_parking</span></div>`})}>
+              <Popup><div style={{fontFamily:'Inter',minWidth:140}}><h4 style={{margin:0,fontSize:13,fontWeight:800}}>Parking Space</h4><p style={{margin:0,fontSize:11,color:'#666'}}>₹50 / hour</p></div></Popup>
+            </Marker>
+          ))}
         </MapContainer>
 
         {/* Layer toggles */}
         <div className="absolute top-4 right-4 z-[1000] flex flex-col gap-2">
+          {stationsLoading && <div className="absolute -left-10 top-2"><div className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div></div>}
           <button onClick={()=>setShowEV(v=>!v)} className={`glass-strong w-9 h-9 rounded-lg flex items-center justify-center shadow-md border border-outline-variant/50 transition-all ${showEV?'opacity-100 border-primary':'opacity-45'}`} title="EV Stations">
             <span className="material-symbols-outlined text-primary" style={{fontSize:18,fontVariationSettings:"'FILL' 1"}}>ev_station</span>
           </button>
-          <button className="glass-strong w-9 h-9 rounded-lg flex items-center justify-center shadow-md border border-outline-variant/50" title="Fuel Stations">
-            <span className="material-symbols-outlined text-orange-500" style={{fontSize:18}}>local_gas_station</span>
+          <button onClick={()=>setShowFuel(v=>!v)} className={`glass-strong w-9 h-9 rounded-lg flex items-center justify-center shadow-md border border-outline-variant/50 transition-all ${showFuel?'opacity-100 border-orange-500':'opacity-45'}`} title="Fuel Stations">
+            <span className="material-symbols-outlined text-orange-500" style={{fontSize:18,fontVariationSettings: showFuel ? "'FILL' 1" : "'FILL' 0"}}>local_gas_station</span>
           </button>
-          <button className="glass-strong w-9 h-9 rounded-lg flex items-center justify-center shadow-md border border-outline-variant/50" title="Parking">
-            <span className="material-symbols-outlined text-on-surface-variant" style={{fontSize:18}}>local_parking</span>
+          <button onClick={()=>setShowParking(v=>!v)} className={`glass-strong w-9 h-9 rounded-lg flex items-center justify-center shadow-md border border-outline-variant/50 transition-all ${showParking?'opacity-100 border-on-surface-variant':'opacity-45'}`} title="Parking">
+            <span className="material-symbols-outlined text-on-surface-variant" style={{fontSize:18,fontVariationSettings: showParking ? "'FILL' 1" : "'FILL' 0"}}>local_parking</span>
           </button>
         </div>
       </section>

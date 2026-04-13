@@ -21,13 +21,41 @@ export const CHARGING_STATIONS = [
   { id:20, name:'KSEB Thiruvananthapuram', city:'Thiruvananthapuram', state:'Kerala', lat:8.5241, lng:76.9366, stationType:'Fast Charger', connectorTypes:['CCS2','Type2'], pricePerUnit:12, isBatterySwapAvailable:false },
 ];
 
+const SIMULATED_LATENCY = 800; // Simulated network delay in ms
+
 export const StationService = {
-  getAllStations: () => CHARGING_STATIONS,
-  getByCity: (city) => CHARGING_STATIONS.filter(s => s.city.toLowerCase().includes(city.toLowerCase())),
-  getByState: (state) => CHARGING_STATIONS.filter(s => s.state.toLowerCase() === state.toLowerCase()),
-  getByType: (type) => CHARGING_STATIONS.filter(s => s.stationType === type),
-  getNearestStations(lat, lng, count = 5) {
-    const dist = (s) => Math.sqrt((s.lat - lat) ** 2 + (s.lng - lng) ** 2);
-    return [...CHARGING_STATIONS].sort((a, b) => dist(a) - dist(b)).slice(0, count);
+  getAllStations: async () => {
+    return new Promise(resolve => {
+      setTimeout(() => resolve(CHARGING_STATIONS), SIMULATED_LATENCY);
+    });
+  },
+  getByCity: async (city) => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(CHARGING_STATIONS.filter(s => s.city.toLowerCase().includes(city.toLowerCase())));
+      }, SIMULATED_LATENCY);
+    });
+  },
+  getByState: async (state) => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(CHARGING_STATIONS.filter(s => s.state.toLowerCase() === state.toLowerCase()));
+      }, SIMULATED_LATENCY);
+    });
+  },
+  getByType: async (type) => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(CHARGING_STATIONS.filter(s => s.stationType === type));
+      }, SIMULATED_LATENCY);
+    });
+  },
+  getNearestStations: async (lat, lng, count = 5) => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        const dist = (s) => Math.sqrt((s.lat - lat) ** 2 + (s.lng - lng) ** 2);
+        resolve([...CHARGING_STATIONS].sort((a, b) => dist(a) - dist(b)).slice(0, count));
+      }, SIMULATED_LATENCY);
+    });
   }
 };

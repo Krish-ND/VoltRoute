@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 import { processQuery } from './engine';
 
 // Expose a global open trigger for external buttons (e.g. Landing page voice button)
@@ -13,6 +14,7 @@ export default function FlashVolt() {
   ]);
   const [input, setInput] = useState('');
   const [isListening, setIsListening] = useState(false);
+  const [isThinking, setIsThinking] = useState(false);
   const msgsRef = useRef(null);
   const inputRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -45,8 +47,10 @@ export default function FlashVolt() {
           if (transcript.trim()) {
             setMessages(m => [...m, { role: 'user', text: transcript.trim() }]);
             setInput('');
-            setTimeout(() => {
-              const result = processQuery(transcript.trim());
+            setTimeout(async () => {
+              setIsThinking(true);
+              const result = await processQuery(transcript.trim());
+              setIsThinking(false);
               setMessages(m => [...m, { role: 'assistant', text: result.text }]);
               if (result.action?.type === 'navigate') navigate(result.action.path);
             }, 400);
@@ -76,8 +80,10 @@ export default function FlashVolt() {
     if (!q) return;
     setMessages(m => [...m, { role: 'user', text: q }]);
     setInput('');
-    setTimeout(() => {
-      const result = processQuery(q);
+    setTimeout(async () => {
+      setIsThinking(true);
+      const result = await processQuery(q);
+      setIsThinking(false);
       setMessages(m => [...m, { role: 'assistant', text: result.text }]);
       if (result.action?.type === 'navigate') navigate(result.action.path);
     }, 400);
@@ -117,12 +123,18 @@ export default function FlashVolt() {
               m.role === 'user'
                 ? 'ml-auto bg-gradient-to-r from-primary to-primary-container text-white rounded-br-sm'
                 : 'bg-surface-container-low text-on-surface rounded-bl-sm'
-            }`} dangerouslySetInnerHTML={{ __html: formatMsg(m.text) }} />
+            }`} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(formatMsg(m.text)) }} />
           ))}
           {isListening && (
             <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-error/10 text-error text-[13px] font-bold fade-in-up">
               <span className="w-2.5 h-2.5 bg-error rounded-full animate-pulse" />
               Listening...
+            </div>
+          )}
+          {isThinking && (
+            <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-primary/10 text-primary text-[13px] font-bold fade-in-up self-start">
+              <span className="w-2.5 h-2.5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+              Processing with Open Models...
             </div>
           )}
         </div>

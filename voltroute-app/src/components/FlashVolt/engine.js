@@ -13,31 +13,21 @@ const KB = {
   pages: { dashboard:'/dashboard', analytics:'/analytics', history:'/history', stations:'/stations', settings:'/settings', home:'/' }
 };
 
-export function processQuery(input) {
+export async function processQuery(input) {
   const q = input.toLowerCase().trim();
 
   // Greeting
-  if (/^(hi|hello|hey|namaste|good\s*(morning|afternoon|evening))/.test(q))
-    return { text: "Hello! I'm **FlashVolt** ⚡ — your smart EV companion. How can I help?", action: null };
+  if (/^(hi|hello|hey|namaste|good\s*(morning|afternoon|evening))$/.test(q))
+    return { text: "Hello! I'm **FlashVolt** ⚡ — your smart EV companion powered by Open AI Models. How can I help?", action: null };
 
   // Identity
   if (/who are you|what are you|your name|flashvolt/.test(q))
-    return { text: "I'm **FlashVolt**, the AI assistant built into VoltRoute. I can plan trips, find stations, calculate costs, and navigate the app!", action: null };
-
-  // What is VoltRoute
-  if (/what is voltroute|about voltroute|tell me about/.test(q))
-    return { text: "**VoltRoute** is a smart EV mobility platform for Indian EV owners.\n\nKey features:\n• 🗺️ Smart route planning\n• 🔋 Battery prediction\n• ⚡ Charging station discovery\n• 💰 Trip bill generation\n• 🎤 Voice commands\n• 📊 Trip history & analytics", action: null };
+    return { text: "I'm **FlashVolt**, the AI assistant built into VoltRoute. I can plan trips, find stations, calculate costs, and navigate the app natively. For everything else, I use NextGen Open Models!", action: null };
 
   // Navigation
   for (const [key, path] of Object.entries(KB.pages)) {
     if (q.includes(key) && (q.includes('go to') || q.includes('open') || q.includes('show') || q.includes('navigate')))
       return { text: `Taking you to **${key.charAt(0).toUpperCase() + key.slice(1)}**...`, action: { type: 'navigate', path } };
-  }
-
-  // Feature search
-  for (const f of KB.features) {
-    if (f.kw.some(k => q.includes(k)))
-      return { text: `**${f.name}**: ${f.desc}`, action: null };
   }
 
   // Trip planning
@@ -55,10 +45,14 @@ export function processQuery(input) {
     return { text: `For **${km} km**:\n• ⚡ Energy: ~${energy} kWh\n• 💰 EV cost: ~₹${cost}\n• ⛽ Petrol would cost: ~₹${petrol}\n• 🎉 You save: ~₹${petrol - cost}!`, action: null };
   }
 
-  // What can you do
-  if (/what can you do|help|capabilities|features/.test(q))
-    return { text: "Here's what I can do:\n\n1. **Plan a Trip** — Go to Dashboard\n2. **Find Stations** — Explore Stations page\n3. **Generate Bills** — Auto-calculated costs\n4. **Manage Vehicles** — Add EVs in Settings\n5. **View History** — Track past trips\n\n💡 Try: \"Plan trip from Mumbai to Pune\" or \"How much for 200 km?\"", action: null };
-
-  // Fallback
-  return { text: `I'm not sure about that. Try asking me:\n• "Plan trip from Kochi to Trivandrum"\n• "Find stations near Bengaluru"\n• "How much for 200 km?"\n• "Go to dashboard"`, action: null };
+  // Open Model LLM Fallback (Pollinations.ai Free Text API)
+  try {
+    const prompt = `System: You are FlashVolt, an advanced AI travel companion for an Indian EV platform called VoltRoute. You are helpful, extremely concise, and use emojis. Do not output markdown code blocks. Answer the following user query: ${input}`;
+    const res = await fetch(`https://text.pollinations.ai/prompt/${encodeURIComponent(prompt)}`);
+    if (!res.ok) throw new Error('API Error');
+    const text = await res.text();
+    return { text, action: null };
+  } catch (err) {
+    return { text: `I am having trouble connecting to my neural net right now. Keep to app navigation commands like "Go to Dashboard".`, action: null };
+  }
 }

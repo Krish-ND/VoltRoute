@@ -13,6 +13,14 @@ const firebaseConfig = {
 
 export const IS_DEMO_MODE = !firebaseConfig.apiKey || firebaseConfig.apiKey.includes('DemoKey') || firebaseConfig.apiKey.includes('ReplaceMeWith');
 
+if (import.meta.env.PROD && !firebaseConfig.apiKey) {
+  throw new Error("CRITICAL: Firebase API key is missing in production. App initialization halted to prevent insecure defaults.");
+}
+
+if (IS_DEMO_MODE) {
+  console.warn("WARNING: Running in DEMO MODE with insecure fallback credentials.");
+}
+
 let app, auth, db;
 try {
   app = initializeApp(firebaseConfig);

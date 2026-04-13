@@ -17,7 +17,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl flex justify-between items-center px-6 h-14 border-b border-outline-variant/30">
+    <header className="fixed top-0 w-full z-50 bg-surface-container-lowest/70 backdrop-blur-xl flex justify-between items-center px-6 h-14 border-b border-outline-variant/30">
       <div className="flex items-center gap-6">
         <Link to="/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary-container flex items-center justify-center shadow-sm">
@@ -39,7 +39,9 @@ export default function Navbar() {
       <div className="flex items-center gap-3">
         {user ? (
           <>
-            <span className="text-xs font-bold text-on-surface-variant hidden sm:block">{user.displayName || user.email}</span>
+            <Link to="/profile" className="text-xs font-bold text-on-surface-variant hidden sm:block hover:text-primary transition-colors hover:bg-primary/5 px-2 py-1 rounded-md">
+              {user.displayName || user.email}
+            </Link>
             <button onClick={logout} className="px-3 py-1.5 text-xs font-bold text-error hover:bg-error/5 rounded-lg transition-colors">Logout</button>
           </>
         ) : (
