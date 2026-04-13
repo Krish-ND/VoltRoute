@@ -15,11 +15,12 @@
 | ⛽ **EV vs Fuel** | Side-by-side cost comparison — EV trips save up to **84%** |
 | 📍 **20+ Charging Stations** | Find fast chargers, standard chargers, and battery swap stations across major Indian cities |
 | 🧾 **Trip Bills** | Auto-generate detailed trip bills with cost breakdowns |
-| 🤖 **FlashVolt AI** | Voice + chat AI assistant to plan trips, find stations, and navigate hands-free |
-| 📊 **Analytics Dashboard** | Visualise trip stats, savings, and usage patterns |
-| 📜 **Trip History** | Access and review all your past trips |
-| 🚗 **10+ EV Models** | Pre-loaded specs for popular Indian EVs |
-| 🔐 **Auth + Demo Mode** | Firebase authentication with a built-in demo mode for instant access (no Firebase setup required) |
+| 📱 **Installable PWA** | Network resilient; operates smoothly offline or in highway dead-zones via Service Workers |
+| 🛡️ **Enterprise Security** | Granular Firebase Database Row-Level Security and React Error Boundaries built-in |
+| 🌗 **Dark Mode** | Seamless transition to a sleek dark interface via CSS variable inversion |
+| 🧑‍💻 **User Profiles** | Dedicated profile management bound natively to secure cloud endpoints |
+| 🤖 **NextGen FlashVolt AI** | Connected directly to an Open Source LLM API for advanced, conversational EV assistance |
+| 🔐 **Auth + Demo Mode** | Firebase authentication with a built-in demo mode for instant access |
 
 ---
 
@@ -29,9 +30,10 @@
 - **Styling:** [Tailwind CSS 4](https://tailwindcss.com/)
 - **Routing:** [React Router v7](https://reactrouter.com/)
 - **Maps:** [Leaflet](https://leafletjs.com/) + [React Leaflet](https://react-leaflet.js.org/)
-- **Backend / Auth:** [Firebase](https://firebase.google.com/) (Authentication + Firestore) — with a **demo mode fallback**
+- **Backend / Auth:** [Firebase](https://firebase.google.com/) (Authentication + Firestore fully secured with RLS)
+- **AI Core:** [Pollinations.ai](https://pollinations.ai/) (NextGen Open Model bridging)
+- **PWA:** `vite-plugin-pwa` for edge-caching and offline modes
 - **UI:** [Headless UI](https://headlessui.com/), Google Material Symbols
-- **Fonts:** Inter, Manrope (Google Fonts)
 
 ---
 
